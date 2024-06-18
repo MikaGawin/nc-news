@@ -1,0 +1,13 @@
+.user-avatar {
+    height: 4rem;
+    width: 4rem;
+    border-radius: 3rem;
+    border: solid black 0.2rem;
+}
+
+.user-details {
+    display: flex;
+    position: absolute;
+    right: 5rem;
+    top: 5rem
+}
