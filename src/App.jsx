@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import "./App.css";
 
 import Header from "./Components/Header/Header";
+import Articles from "./Components/Articles/Articles";
 
 function App() {
   const user = {
@@ -17,6 +18,10 @@ function App() {
       <header>
         <Header user={user} />
       </header>
+      <Routes>
+        <Route path="/" element={<Articles />}/>
+      </Routes>
+        
     </>
   );
 }
