@@ -16,3 +16,12 @@ export function getArticles({order, sort_by}, page) {
       console.log(error);
     });
 }
+
+export function getArticle(articleId) {
+  return request.get(`/articles/${articleId}`).then(({data}) => {
+    return data
+  })
+  .catch((error) => {
+    console.log(error)
+  })
+}
