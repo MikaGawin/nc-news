@@ -7,7 +7,7 @@ import PageSetter from "./PageSetter";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function Articles() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const location = useLocation();
   const query = new URLSearchParams(location.search);
 
@@ -24,8 +24,15 @@ function Articles() {
 
   const totalPages = Math.ceil(articlesData.articlesCount / 12);
   const page = parseInt(query.get("page") || "1", { totalPages });
+  if (page > totalPages) {
+    navigate(`?page=${totalPages}`);
+  }
+
   const firstResultIndex = (page - 1) * 12 + 1;
-  const lastResultIndex = (page * 12 < articlesData.articlesCount)? page * 12 : articlesData.articlesCount
+  const lastResultIndex =
+    page * 12 < articlesData.articlesCount
+      ? page * 12
+      : articlesData.articlesCount;
 
   useEffect(() => {
     getArticles(sortedBy, page).then((data) => {
@@ -36,9 +43,8 @@ function Articles() {
   function handleSelect(event) {
     const index = event.target.value;
     if (sortedBy !== sortOptions[index]) {
-      setSortedBy(sortOptions[index])
+      setSortedBy(sortOptions[index]);
       navigate("");
-      
     }
   }
 
@@ -66,7 +72,7 @@ function Articles() {
         })}
       </ul>
       <div id="page-selector">
-      <PageSetter  page={page} totalPages={totalPages} />
+        <PageSetter page={page} totalPages={totalPages} />
       </div>
     </div>
   );
