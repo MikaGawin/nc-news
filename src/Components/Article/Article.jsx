@@ -89,7 +89,7 @@ function Article() {
           open={voteError}
           autoHideDuration={6000}
           onClose={handleClose}
-          message="I love snacks"
+          message="Something went wrong"
         />
         <button value={1} onClick={handleLike}>
           {likeIsProcessing === 1 ? (
