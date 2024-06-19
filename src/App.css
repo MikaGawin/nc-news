@@ -1,3 +1,18 @@
 * {
     margin:0;
 }
+
+html {
+    height:100%;
+}
+
+.page {
+    background-color: rgb(252, 203, 144);
+    margin-left: 3rem;
+    margin-right: 3rem;
+    width: 100%-6rem;
+    padding: 2rem;
+    height: 100%;
+    position: absolute;
+    align-self: center;
+}
