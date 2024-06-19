@@ -3,7 +3,32 @@
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
-    height:100%
 
 
+}
+
+.comment-details {
+    display: flex;
+    justify-content: space-between;
+    margin-right:
+}
+
+.comments {
+ padding: 1rem;
+}
+
+.load-comment-button{
+    margin-left:auto;
+    margin-right: auto;
+}
+
+.disabled-button {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+#comment-loader{
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+    margin-bottom: 2rem;;
 }

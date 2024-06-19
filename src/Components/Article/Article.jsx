@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { extractTime, displayDate } from "../../utils/formatTime";
 import "./Article.modules.css"
-
+import Comments from "./Comments";
 import { getArticle } from "../../AxiosApi/axiosApi";
 
 function Article () {
@@ -27,6 +27,9 @@ function Article () {
         <section>
             <img src={articleImage}/>
             <p>{body}</p>
+        </section>
+        <section>
+            <Comments articleId={article_id}/>
         </section>
 
     </div>

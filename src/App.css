@@ -16,3 +16,10 @@ html {
     position: absolute;
     align-self: center;
 }
+
+.avatar {
+    height: 5rem;
+    width: 5rem;
+    border: solid black 1px;
+    border-radius: 2rem;
+  }

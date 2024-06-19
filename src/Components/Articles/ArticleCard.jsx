@@ -20,7 +20,7 @@ export default function ArticleCard({article}) {
     <Card className="articleCard" sx={{}}>
       <CardHeader
         avatar={
-          <Avatar sx={{ }} src={article.author_avatar} aria-label="user avatar">
+          <Avatar sx={{ }} className="avatar" src={article.author_avatar} aria-label="user avatar">
             A
           </Avatar>
         }
