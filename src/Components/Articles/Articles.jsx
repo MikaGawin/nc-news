@@ -48,8 +48,9 @@ function Articles() {
     }
   }
 
+
   return (
-    <div>
+    <div className="articles">
       <div id="sort-and-result-count">
         <p id="result-count">
           showing results {firstResultIndex} - {lastResultIndex} of{" "}
@@ -68,7 +69,7 @@ function Articles() {
       </div>
       <ul className="articleList">
         {articlesData.articles.map((article) => {
-          return <ArticleCard key={article.article_id} article={article} />;
+          return <ArticleCard  key={article.article_id} article={article} />;
         })}
       </ul>
       <div id="page-selector">

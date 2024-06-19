@@ -18,16 +18,9 @@
 }
 
 #sort-and-result-count{
-  margin-top: 1rem;
 display: flex;
 flex-wrap: wrap;
 justify-content: space-between;
-}
-#result-count{
-  margin-left:5%;
-}
-#sort-selector{
-  margin-right:5%;
 }
 
 #page-selector{

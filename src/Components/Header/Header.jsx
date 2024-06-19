@@ -1,7 +1,7 @@
 import Titlebar from "./Titlebar";
 import Navbar from "./Navbar";
 
-import "./Header.css"
+import "./Header.modules.css"
 
 function Header({ user }) {
   return (

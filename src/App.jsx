@@ -4,6 +4,7 @@ import "./App.css";
 
 import Header from "./Components/Header/Header";
 import Articles from "./Components/Articles/Articles";
+import Article from "./Components/Article/Article";
 
 function App() {
   const user = {
@@ -18,10 +19,12 @@ function App() {
       <header>
         <Header user={user} />
       </header>
-      <Routes>
-        <Route path="/" element={<Articles />}/>
-      </Routes>
-        
+      <main className="page">
+        <Routes >
+          <Route path="/" element={<Articles />}/>
+          <Route path="/articles/:article_id" element={<Article />}/>
+        </Routes>
+      </main>  
     </>
   );
 }
