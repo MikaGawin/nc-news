@@ -49,10 +49,10 @@ function Article() {
             setHasLiked((currentValue) => {
               return currentValue + voteChange;
             });
-            setArticleData((currentValue)=> {
-                const newVotes = currentValue.votes + voteChange
-                return {...currentValue, votes:newVotes}
-            })
+            setArticleData((currentValue) => {
+              const newVotes = currentValue.votes + voteChange;
+              return { ...currentValue, votes: newVotes };
+            });
             setLikeIsProcessing(0);
           }
         })

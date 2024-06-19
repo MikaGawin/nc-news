@@ -39,25 +39,24 @@ export function getComments(articleId, page) {
     });
 }
 
-export function patchArticleVotes(articleId, increment){
+export function patchArticleVotes(articleId, increment) {
   return request
-    .patch(`/articles/${articleId}`, {inc_votes: increment})
-    .then(({data}) => {
-      return data
+    .patch(`/articles/${articleId}`, { inc_votes: increment })
+    .then(({ data }) => {
+      return data;
     })
-    .catch((error)=> {
-      return "request failed"
-    })
+    .catch((error) => {
+      return "request failed";
+    });
 }
 
-export function patchCommentVotes(commentId, increment){
-  console.log(`/comments/${commentId}`)
+export function patchCommentVotes(commentId, increment) {
   return request
-    .patch(`/comments/${commentId}`, {inc_votes: increment})
-    .then(({data}) => {
-      return data
+    .patch(`/comments/${commentId}`, { inc_votes: increment })
+    .then(({ data }) => {
+      return data;
     })
-    .catch((error)=> {
-      return "request failed"
-    })
+    .catch((error) => {
+      return "request failed";
+    });
 }
