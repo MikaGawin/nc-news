@@ -12,10 +12,6 @@ import { extractTime, displayDate } from '../../utils/formatTime';
 export default function ArticleCard({article}) {
   const articleCreatedDate = displayDate(extractTime(article.created_at))
   
-  
-    // navigate(`articles/${article.article_id}`);
-  
-
   return (
     <Card className="articleCard" sx={{}}>
       <CardHeader
