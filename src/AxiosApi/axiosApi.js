@@ -49,3 +49,15 @@ export function patchArticleVotes(articleId, increment){
       return "request failed"
     })
 }
+
+export function patchCommentVotes(commentId, increment){
+  console.log(`/comments/${commentId}`)
+  return request
+    .patch(`/comments/${commentId}`, {inc_votes: increment})
+    .then(({data}) => {
+      return data
+    })
+    .catch((error)=> {
+      return "request failed"
+    })
+}
