@@ -3,6 +3,10 @@
   justify-content: space-between;
 }
 
+.comment-card{
+    margin-bottom: 3px;
+}
+
 .comments {
   padding: 1rem;
 }

@@ -60,7 +60,7 @@ function CommentCard({
   }
 
   return (
-    <Card sx={{}}>
+    <Card className="comment-card" sx={{}}>
       <CardHeader
         avatar={
           <Avatar
@@ -80,20 +80,20 @@ function CommentCard({
               <p>{commentVotes} likes</p>
               <button value={1} onClick={handleLike}>
                 {likeIsProcessing === 1 ? (
-                  <CircularProgress size={25} />
+                  <CircularProgress size={20} />
                 ) : hasLiked === 1 ? (
-                  <ThumbUpAltIcon sx={{ fontSize: 25 }} color="primary" />
+                  <ThumbUpAltIcon sx={{ fontSize: 20 }} color="primary" />
                 ) : (
-                  <ThumbUpOffAltIcon sx={{ fontSize: 25 }} />
+                  <ThumbUpOffAltIcon sx={{ fontSize: 20 }} />
                 )}
               </button>
               <button value={-1} onClick={handleLike}>
                 {likeIsProcessing === -1 ? (
-                  <CircularProgress size={25} />
+                  <CircularProgress size={20} />
                 ) : hasLiked === -1 ? (
-                  <ThumbDownAltIcon sx={{ fontSize: 25 }} color="primary" />
+                  <ThumbDownAltIcon sx={{ fontSize: 20 }} color="primary" />
                 ) : (
-                  <ThumbDownOffAltIcon sx={{ fontSize: 25 }} />
+                  <ThumbDownOffAltIcon sx={{ fontSize: 20 }} />
                 )}
               </button>
               <Snackbar
