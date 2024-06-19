@@ -10,7 +10,7 @@ html {
     background-color: rgb(252, 203, 144);
     margin-left: 3rem;
     margin-right: 3rem;
-    width: 100%-6rem;
+    width: calc(100vw -6rem);
     padding: 2rem;
     height: 100%;
     position: absolute;

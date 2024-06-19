@@ -19,12 +19,12 @@ function App() {
       <header>
         <Header user={user} />
       </header>
-      <div className="page">
+      <main className="page">
         <Routes >
           <Route path="/" element={<Articles />}/>
           <Route path="/articles/:article_id" element={<Article />}/>
         </Routes>
-      </div>  
+      </main>  
     </>
   );
 }
