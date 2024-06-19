@@ -38,3 +38,14 @@ export function getComments(articleId, page) {
       console.log(error);
     });
 }
+
+export function patchArticleVotes(articleId, increment){
+  return request
+    .patch(`/articles/${articleId}`, {inc_votes: increment})
+    .then(({data}) => {
+      return data
+    })
+    .catch((error)=> {
+      return "request failed"
+    })
+}

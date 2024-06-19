@@ -16,7 +16,7 @@ function CommentCard({ comment: { author, body, votes, created_at, author_avatar
       title={author}
       subheader={<div className="comment-details">
       <p>"September 14, 2016"</p>
-      <p>{votes} votes</p>
+      <p>{votes} likes</p>
       </div>}
     />
     <CardContent>
