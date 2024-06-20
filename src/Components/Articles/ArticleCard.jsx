@@ -41,7 +41,7 @@ export default function ArticleCard({article}) {
       </CardContent>
       <CardContent className="comments-and-likes">
         <Typography variant="caption">
-            {article.votes} upvotes
+            {article.votes} likes
         </Typography>
 
         <Typography className="comment-count" variant="caption">
