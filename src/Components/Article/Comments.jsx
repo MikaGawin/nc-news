@@ -1,8 +1,9 @@
 import { getComments } from "../../AxiosApi/axiosApi";
 import { useEffect, useState } from "react";
 import CommentCard from "./CommentCard";
+import NewCommentCard from "./NewCommentCard.jsx";
 
-function Comments({ articleId }) {
+function Comments({ articleId, user}) {
   const [comments, setComments] = useState([]);
   const [totalComments, setTotalComments] = useState(0);
   const [pagesLoaded, setPagesLoaded] = useState(0);
@@ -36,6 +37,7 @@ function Comments({ articleId }) {
     <>
       <h2>Comments</h2>
       <div className="comments">
+      <NewCommentCard user={user} />
         {comments.map((comment) => {
           return <CommentCard key={comment.comment_id} comment={comment} />;
         })}

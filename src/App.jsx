@@ -22,7 +22,7 @@ function App() {
       <main className="page">
         <Routes >
           <Route path="/" element={<Articles />}/>
-          <Route path="/articles/:article_id" element={<Article />}/>
+          <Route path="/articles/:article_id" element={<Article  user={user}/>}/>
         </Routes>
       </main>  
     </>

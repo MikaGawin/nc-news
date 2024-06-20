@@ -11,7 +11,7 @@ import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Snackbar } from "@mui/material";
 
-function Article() {
+function Article({user}) {
   const { article_id } = useParams();
   const [articleData, setArticleData] = useState({});
   const [hasLiked, setHasLiked] = useState(0);
@@ -115,7 +115,7 @@ function Article() {
         <p>{body}</p>
       </section>
       <section>
-        <Comments articleId={article_id} />
+        <Comments articleId={article_id} user={user}/>
       </section>
     </div>
   );
