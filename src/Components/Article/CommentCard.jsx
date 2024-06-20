@@ -12,6 +12,7 @@ import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Snackbar } from "@mui/material";
 import { patchCommentVotes } from "../../AxiosApi/axiosApi";
+import { displayTimeSince } from "../../utils/formatTime";
 
 function CommentCard({
   comment: { comment_id, author, body, votes, created_at, author_avatar },
@@ -70,7 +71,7 @@ function CommentCard({
         title={author}
         subheader={
           <div className="comment-details">
-            <p>"September 14, 2016"</p>
+            <p>{displayTimeSince(created_at)}</p>
             <div>
               <p>{commentVotes} likes</p>
               <button value={1} onClick={handleLike}>
