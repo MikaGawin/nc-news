@@ -39,18 +39,13 @@ function CommentCard({
       }
       patchCommentVotes(comment_id, voteChange)
         .then((article) => {
-          if (article === "request failed") {
-            setLikeIsProcessing(0);
-            setVoteError(true);
-          } else {
-            setHasLiked((currentValue) => {
-              return currentValue + voteChange;
-            });
-            setCommentVotes((currentValue) => {
-              return currentValue + voteChange;
-            });
-            setLikeIsProcessing(0);
-          }
+          setHasLiked((currentValue) => {
+            return currentValue + voteChange;
+          });
+          setCommentVotes((currentValue) => {
+            return currentValue + voteChange;
+          });
+          setLikeIsProcessing(0);
         })
         .catch((error) => {
           setLikeIsProcessing(0);

@@ -11,12 +11,13 @@ import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Snackbar } from "@mui/material";
 
-function Article() {
+function Article({ user }) {
   const { article_id } = useParams();
   const [articleData, setArticleData] = useState({});
   const [hasLiked, setHasLiked] = useState(0);
   const [likeIsProcessing, setLikeIsProcessing] = useState(0);
   const [voteError, setVoteError] = useState(false);
+  const [totalComments, setTotalComments] = useState("");
 
   const handleClose = () => {
     setVoteError(false);
@@ -25,6 +26,7 @@ function Article() {
   useEffect(() => {
     getArticle(article_id).then(({ article }) => {
       setArticleData(article);
+      setTotalComments(article.comment_count)
     });
   }, []);
 
@@ -42,19 +44,14 @@ function Article() {
       }
       patchArticleVotes(article_id, voteChange)
         .then((article) => {
-          if (article === "request failed") {
-            setLikeIsProcessing(0);
-            setVoteError(true);
-          } else {
-            setHasLiked((currentValue) => {
-              return currentValue + voteChange;
-            });
-            setArticleData((currentValue) => {
-              const newVotes = currentValue.votes + voteChange;
-              return { ...currentValue, votes: newVotes };
-            });
-            setLikeIsProcessing(0);
-          }
+          setHasLiked((currentValue) => {
+            return currentValue + voteChange;
+          });
+          setArticleData((currentValue) => {
+            const newVotes = currentValue.votes + voteChange;
+            return { ...currentValue, votes: newVotes };
+          });
+          setLikeIsProcessing(0);
         })
         .catch((error) => {
           setLikeIsProcessing(0);
@@ -70,9 +67,9 @@ function Article() {
     body,
     created_at: dateString,
     votes,
-    comment_count: commentsCount,
     article_img_url: articleImage,
   } = articleData;
+
   const date = displayDate(extractTime(dateString));
   return (
     <div className="article">
@@ -82,7 +79,7 @@ function Article() {
         <h3>{date}</h3>
         <h4>{topic}</h4>
         <h5>
-          Likes: {votes} comments: {commentsCount}
+          Likes: {votes} comments: {totalComments}
         </h5>
         <Snackbar
           id="vote-error"
@@ -115,7 +112,7 @@ function Article() {
         <p>{body}</p>
       </section>
       <section>
-        <Comments articleId={article_id} />
+        <Comments articleId={article_id} totalComments={totalComments} setTotalComments={setTotalComments} user={user} />
       </section>
     </div>
   );
