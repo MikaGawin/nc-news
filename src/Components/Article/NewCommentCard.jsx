@@ -7,6 +7,7 @@ import { Snackbar } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import SendIcon from '@mui/icons-material/Send';
 import { postComment } from "../../AxiosApi/axiosApi";
+import TextareaAutosize from 'react-textarea-autosize';
 
 function NewCommentCard({ articleId, user: { username, avatar_url: userAvatar } }) {
   const [commentInput, setCommentInput] = useState("")
@@ -50,7 +51,7 @@ function NewCommentCard({ articleId, user: { username, avatar_url: userAvatar } 
         title={username}
         subheader={
           <form id="new-comment" onSubmit={handleSubmit}>
-            <textarea value={commentInput} onChange={handleCommentInput} rows="5" id="new-comment-input"/>
+            <TextareaAutosize value={commentInput} maxlength={1000} onChange={handleCommentInput} minRows="2" id="new-comment-input"/>
               <button value={1} >
               {commentIsProcessing === true ? (
                   <CircularProgress size={20} />
