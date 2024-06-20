@@ -20,6 +20,10 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.disabled-comment-button {
+  cursor: not-allowed;
+}
 #comment-loader {
   display: flex;
   justify-content: center;

@@ -44,9 +44,6 @@ export function patchArticleVotes(articleId, increment) {
     .patch(`/articles/${articleId}`, { inc_votes: increment })
     .then(({ data }) => {
       return data;
-    })
-    .catch((error) => {
-      return "request failed";
     });
 }
 
@@ -55,19 +52,16 @@ export function patchCommentVotes(commentId, increment) {
     .patch(`/comments/${commentId}`, { inc_votes: increment })
     .then(({ data }) => {
       return data;
-    })
-    .catch((error) => {
-      return "request failed";
     });
 }
 
 export function postComment(articleId, comment) {
   return request
-  .post(`/articles/${articleId}/comments`, comment)
-  .then(({data}) => {
-    return data
-  })
-  .catch((error) => {
-    return "request failed";
-  });
+    .post(`/articles/${articleId}/comments`, comment)
+    .then(({ data }) => {
+      return data;
+    })
+    .catch((error) => {
+      return "request failed";
+    });
 }

@@ -15,6 +15,7 @@ function NewCommentCard({ articleId, user: { username, avatar_url: userAvatar } 
   const [postError, setPostError] = useState(false);
   const [commentIsProcessing, setCommentIsProcessing] = useState(false)
 
+
   function handleClose() {
     setPostError(false);
   };
@@ -26,9 +27,11 @@ function NewCommentCard({ articleId, user: { username, avatar_url: userAvatar } 
   function handleSubmit(event) {
     event.preventDefault()
     if(commentInput.length > 0){
+      setCommentIsProcessing(true)
       const comment = {username, body:commentInput}
       postComment(articleId, comment).then((returnedComment) => {
         setCommentInput("")
+        setCommentIsProcessing(false)
         console.log(returnedComment)
       })
     }
@@ -51,12 +54,12 @@ function NewCommentCard({ articleId, user: { username, avatar_url: userAvatar } 
         title={username}
         subheader={
           <form id="new-comment" onSubmit={handleSubmit}>
-            <TextareaAutosize value={commentInput} maxlength={1000} onChange={handleCommentInput} minRows="2" id="new-comment-input"/>
-              <button value={1} >
+            <TextareaAutosize placeholder="Write a comment..." value={commentInput} maxlength={1000} onChange={handleCommentInput} minRows="2" id="new-comment-input"/>
+              <button className={(commentIsProcessing || !commentInput)? "disabled-comment-button" : ""} >
               {commentIsProcessing === true ? (
                   <CircularProgress size={20} />
                 ): (
-                  <SendIcon sx={{ fontSize: 20 }} color="primary" />
+                  <SendIcon sx={{ fontSize: 20 }} color={commentInput? "primary" : ""} />
                 )}
               </button>
           </form>

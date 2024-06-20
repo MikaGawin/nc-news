@@ -11,7 +11,7 @@ import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Snackbar } from "@mui/material";
 
-function Article({user}) {
+function Article({ user }) {
   const { article_id } = useParams();
   const [articleData, setArticleData] = useState({});
   const [hasLiked, setHasLiked] = useState(0);
@@ -42,19 +42,14 @@ function Article({user}) {
       }
       patchArticleVotes(article_id, voteChange)
         .then((article) => {
-          if (article === "request failed") {
-            setLikeIsProcessing(0);
-            setVoteError(true);
-          } else {
-            setHasLiked((currentValue) => {
-              return currentValue + voteChange;
-            });
-            setArticleData((currentValue) => {
-              const newVotes = currentValue.votes + voteChange;
-              return { ...currentValue, votes: newVotes };
-            });
-            setLikeIsProcessing(0);
-          }
+          setHasLiked((currentValue) => {
+            return currentValue + voteChange;
+          });
+          setArticleData((currentValue) => {
+            const newVotes = currentValue.votes + voteChange;
+            return { ...currentValue, votes: newVotes };
+          });
+          setLikeIsProcessing(0);
         })
         .catch((error) => {
           setLikeIsProcessing(0);
@@ -73,7 +68,7 @@ function Article({user}) {
     comment_count: commentsCount,
     article_img_url: articleImage,
   } = articleData;
-  
+
   const date = displayDate(extractTime(dateString));
   return (
     <div className="article">
@@ -116,7 +111,7 @@ function Article({user}) {
         <p>{body}</p>
       </section>
       <section>
-        <Comments articleId={article_id} user={user}/>
+        <Comments articleId={article_id} user={user} />
       </section>
     </div>
   );
