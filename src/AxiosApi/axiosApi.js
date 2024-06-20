@@ -52,7 +52,7 @@ export function patchArticleVotes(articleId, increment) {
 
 export function patchCommentVotes(commentId, increment) {
   return request
-    .patch(`/comments/${commentId}`, { inc_votes: "increment" })
+    .patch(`/comments/${commentId}`, { inc_votes: increment })
     .then(({ data }) => {
       return data;
     })
