@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import CommentCard from "./CommentCard";
 import NewCommentCard from "./NewCommentCard.jsx";
 
-function Comments({ articleId, user}) {
+function Comments({ articleId, user, totalComments, setTotalComments}) {
   const [comments, setComments] = useState([]);
-  const [totalComments, setTotalComments] = useState(0);
   const [pagesLoaded, setPagesLoaded] = useState(0);
 
   useEffect(() => {
@@ -15,13 +14,13 @@ function Comments({ articleId, user}) {
       setPagesLoaded(pagesLoaded + 1);
     });
   }, []);
-  const moreCommenntsAvailable = comments.length < totalComments ? true : false;
-  const LoadCommentsButtonClasses = moreCommenntsAvailable
+  const moreCommentsAvailable = comments.length < totalComments ? true : false;
+  const LoadCommentsButtonClasses = moreCommentsAvailable
     ? "load-comment-button"
     : "load-comment-button disabled-button";
 
   function loadMoreComments() {
-    if (moreCommenntsAvailable) {
+    if (moreCommentsAvailable) {
       const nextPage = pagesLoaded + 1;
       getComments(articleId, nextPage).then(({ comments, commentCount }) => {
         setComments((currentComments) => {
@@ -37,7 +36,7 @@ function Comments({ articleId, user}) {
     <>
       <h2>Comments</h2>
       <div className="comments">
-      <NewCommentCard articleId={articleId} user={user} />
+      <NewCommentCard articleId={articleId} user={user} setComments={setComments} setTotalComments={setTotalComments}/>
         {comments.map((comment) => {
           return <CommentCard key={comment.comment_id} comment={comment} />;
         })}

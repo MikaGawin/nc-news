@@ -17,6 +17,7 @@ function Article({ user }) {
   const [hasLiked, setHasLiked] = useState(0);
   const [likeIsProcessing, setLikeIsProcessing] = useState(0);
   const [voteError, setVoteError] = useState(false);
+  const [totalComments, setTotalComments] = useState("");
 
   const handleClose = () => {
     setVoteError(false);
@@ -25,6 +26,7 @@ function Article({ user }) {
   useEffect(() => {
     getArticle(article_id).then(({ article }) => {
       setArticleData(article);
+      setTotalComments(article.comment_count)
     });
   }, []);
 
@@ -65,7 +67,6 @@ function Article({ user }) {
     body,
     created_at: dateString,
     votes,
-    comment_count: commentsCount,
     article_img_url: articleImage,
   } = articleData;
 
@@ -78,7 +79,7 @@ function Article({ user }) {
         <h3>{date}</h3>
         <h4>{topic}</h4>
         <h5>
-          Likes: {votes} comments: {commentsCount}
+          Likes: {votes} comments: {totalComments}
         </h5>
         <Snackbar
           id="vote-error"
@@ -111,7 +112,7 @@ function Article({ user }) {
         <p>{body}</p>
       </section>
       <section>
-        <Comments articleId={article_id} user={user} />
+        <Comments articleId={article_id} totalComments={totalComments} setTotalComments={setTotalComments} user={user} />
       </section>
     </div>
   );

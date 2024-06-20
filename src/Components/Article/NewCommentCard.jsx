@@ -9,7 +9,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { postComment } from "../../AxiosApi/axiosApi";
 import TextareaAutosize from 'react-textarea-autosize';
 
-function NewCommentCard({ articleId, user: { username, avatar_url: userAvatar } }) {
+function NewCommentCard({ setComments, setTotalComments, articleId, user: { username, avatar_url: userAvatar } }) {
   const [commentInput, setCommentInput] = useState("")
 
   const [postError, setPostError] = useState(false);
@@ -28,11 +28,26 @@ function NewCommentCard({ articleId, user: { username, avatar_url: userAvatar } 
     event.preventDefault()
     if(commentInput.length > 0){
       setCommentIsProcessing(true)
-      const comment = {username, body:commentInput}
-      postComment(articleId, comment).then((returnedComment) => {
+      const newComment = {username, body:commentInput}
+      postComment(articleId, newComment).then(({comment}) => {
         setCommentInput("")
         setCommentIsProcessing(false)
-        console.log(returnedComment)
+        setTotalComments((currentTotal)=>{
+          return currentTotal+1
+        })
+        setComments((currentComments)=>{
+          const commentsToDisplay = [...currentComments]
+          if (commentsToDisplay.length % 10 === 0){
+            commentsToDisplay.pop()
+          }
+          commentsToDisplay.unshift({...comment, author_avatar: userAvatar})
+          return commentsToDisplay
+        })
+      })
+      .catch((error)=>{
+        console.log(error)
+        setCommentIsProcessing(false)
+        setPostError(true)
       })
     }
   }
@@ -54,7 +69,7 @@ function NewCommentCard({ articleId, user: { username, avatar_url: userAvatar } 
         title={username}
         subheader={
           <form id="new-comment" onSubmit={handleSubmit}>
-            <TextareaAutosize placeholder="Write a comment..." value={commentInput} maxlength={1000} onChange={handleCommentInput} minRows="2" id="new-comment-input"/>
+            <TextareaAutosize placeholder="Write a comment..." value={commentInput} maxLength="1000" onChange={handleCommentInput} minRows="2" id="new-comment-input"/>
               <button className={(commentIsProcessing || !commentInput)? "disabled-comment-button" : ""} >
               {commentIsProcessing === true ? (
                   <CircularProgress size={20} />

@@ -61,7 +61,4 @@ export function postComment(articleId, comment) {
     .then(({ data }) => {
       return data;
     })
-    .catch((error) => {
-      return "request failed";
-    });
 }
