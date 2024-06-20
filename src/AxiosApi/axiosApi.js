@@ -60,3 +60,14 @@ export function patchCommentVotes(commentId, increment) {
       return "request failed";
     });
 }
+
+export function postComment(articleId, comment) {
+  return request
+  .post(`/articles/${articleId}/comments`, comment)
+  .then(({data}) => {
+    return data
+  })
+  .catch((error) => {
+    return "request failed";
+  });
+}

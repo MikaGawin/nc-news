@@ -73,6 +73,7 @@ function Article({user}) {
     comment_count: commentsCount,
     article_img_url: articleImage,
   } = articleData;
+  
   const date = displayDate(extractTime(dateString));
   return (
     <div className="article">

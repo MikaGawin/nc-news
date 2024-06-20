@@ -6,16 +6,31 @@ import { useState } from "react";
 import { Snackbar } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import SendIcon from '@mui/icons-material/Send';
+import { postComment } from "../../AxiosApi/axiosApi";
 
-function NewCommentCard({ user: { username, avatar_url: userAvatar } }) {
+function NewCommentCard({ articleId, user: { username, avatar_url: userAvatar } }) {
+  const [commentInput, setCommentInput] = useState("")
+
   const [postError, setPostError] = useState(false);
   const [commentIsProcessing, setCommentIsProcessing] = useState(false)
 
-  const handleClose = () => {
+  function handleClose() {
     setPostError(false);
   };
 
-  function handleSubmit() {
+  function handleCommentInput(event) {
+    setCommentInput(event.target.value)
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault()
+    if(commentInput.length > 0){
+      const comment = {username, body:commentInput}
+      postComment(articleId, comment).then((returnedComment) => {
+        setCommentInput("")
+        console.log(returnedComment)
+      })
+    }
   }
 
   return (
@@ -34,10 +49,9 @@ function NewCommentCard({ user: { username, avatar_url: userAvatar } }) {
         }
         title={username}
         subheader={
-          <form>
-            <input>
-            </input>
-              <button value={1} onClick={handleSubmit}>
+          <form id="new-comment" onSubmit={handleSubmit}>
+            <textarea value={commentInput} onChange={handleCommentInput} rows="5" id="new-comment-input"/>
+              <button value={1} >
               {commentIsProcessing === true ? (
                   <CircularProgress size={20} />
                 ): (

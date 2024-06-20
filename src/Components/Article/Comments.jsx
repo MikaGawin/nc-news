@@ -37,7 +37,7 @@ function Comments({ articleId, user}) {
     <>
       <h2>Comments</h2>
       <div className="comments">
-      <NewCommentCard user={user} />
+      <NewCommentCard articleId={articleId} user={user} />
         {comments.map((comment) => {
           return <CommentCard key={comment.comment_id} comment={comment} />;
         })}
