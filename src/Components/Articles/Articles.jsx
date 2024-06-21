@@ -6,12 +6,12 @@ import sortOptions from "../../utils/sortOptions";
 import ArticleCard from "./ArticleCard";
 import PageSetter from "./PageSetter";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 function Articles() {
   const { topic } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
-  const query = new URLSearchParams(location.search);
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const [articlesData, setarticlesData] = useState({
     articles: [],
@@ -25,7 +25,9 @@ function Articles() {
   });
 
   const totalPages = Math.ceil(articlesData.articlesCount / 12);
-  const page = parseInt(query.get("page") || "1", { totalPages });
+  const page = Number(searchParams.get("page"))
+  const sortState = searchParams.get("sort_by")
+
   if (page > totalPages) {
     navigate(`?page=${totalPages}`);
   }
@@ -36,18 +38,25 @@ function Articles() {
       ? page * 12
       : articlesData.articlesCount;
 
-  useEffect(() => {
-    getArticles(sortedBy, page, topic).then((data) => {
-      setarticlesData(data);
-    });
-  }, [sortedBy, page, topic]);
+      
+      useEffect(()=>{
+        if(sortState){
+          setSortedBy(sortOptions[sortState])
+        }
+      },[sortState])
+      
+      useEffect(() => {
+        getArticles(sortedBy, page, topic).then((data) => {
+          setarticlesData(data);
+        });
+      }, [sortedBy, page, topic]);
 
   function handleSelect(event) {
     const index = event.target.value;
-    if (sortedBy !== sortOptions[index]) {
-      setSortedBy(sortOptions[index]);
-      navigate("");
-    }
+    const newParams = new URLSearchParams(searchParams)
+    newParams.set("sort_by", index)
+    newParams.set("page", 1)
+    setSearchParams(newParams)
   }
 
   return (
@@ -75,7 +84,7 @@ function Articles() {
         })}
       </ul>
       <div id="page-selector">
-        <PageSetter page={page} totalPages={totalPages} />
+        <PageSetter page={page} searchParams={searchParams} setSearchParams={setSearchParams} totalPages={totalPages} />
       </div>
     </div>
   );

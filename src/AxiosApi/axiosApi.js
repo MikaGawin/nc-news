@@ -77,8 +77,9 @@ export function postComment(articleId, comment) {
 export function deleteComment(commentId) {
   return request
     .delete(`/comments/${commentId}`)
-    .then((response) => {})
+    .then((response) => {
+    })
     .catch((error) => {
-      return error.response.data.msg;
+      return error;
     });
 }
