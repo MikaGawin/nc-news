@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getArticles } from "../../AxiosApi/axiosApi";
+import { useParams } from "react-router-dom";
 import "./Articles.modules.css";
 import sortOptions from "../../utils/sortOptions";
 import ArticleCard from "./ArticleCard";
@@ -7,6 +8,7 @@ import PageSetter from "./PageSetter";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function Articles() {
+  const {topic} = useParams()
   const navigate = useNavigate();
   const location = useLocation();
   const query = new URLSearchParams(location.search);
@@ -35,7 +37,7 @@ function Articles() {
       : articlesData.articlesCount;
 
   useEffect(() => {
-    getArticles(sortedBy, page).then((data) => {
+    getArticles(sortedBy, page, topic).then((data) => {
       setarticlesData(data);
     });
   }, [sortedBy, page]);
@@ -51,6 +53,7 @@ function Articles() {
 
   return (
     <div className="articles">
+      <h1>{!topic? <>All articles</> : <>{topic} articles</>}</h1>
       <div id="sort-and-result-count">
         <p id="result-count">
           showing results {firstResultIndex} - {lastResultIndex} of{" "}

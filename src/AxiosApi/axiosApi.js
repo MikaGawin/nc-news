@@ -4,8 +4,8 @@ const request = axios.create({
   baseURL: "https://news-server-2i86.onrender.com/API",
 });
 
-export function getArticles({ order, sort_by }, page) {
-  const queries = { params: { order, sort_by, p: page } };
+export function getArticles({ order, sort_by }, page, topic) {
+  const queries = { params: { order, sort_by, p: page, topic} };
   return request
     .get("/articles?limit=12", queries)
     .then(({ data }) => {
