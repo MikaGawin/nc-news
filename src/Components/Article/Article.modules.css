@@ -45,3 +45,8 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+#delete-comment-button{
+width: 72px;
+background-color: rgb(230, 57, 57)
+}

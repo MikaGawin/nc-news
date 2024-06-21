@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getArticles } from "../../AxiosApi/axiosApi";
 import "./Articles.modules.css";
-import sortOptions from "../../utils/__tests__/sortOptions";
+import sortOptions from "../../utils/sortOptions";
 import ArticleCard from "./ArticleCard";
 import PageSetter from "./PageSetter";
 import { useLocation, useNavigate } from "react-router-dom";

@@ -4,25 +4,34 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Snackbar } from "@mui/material";
-import { patchCommentVotes } from "../../AxiosApi/axiosApi";
+import { patchCommentVotes, deleteComment } from "../../AxiosApi/axiosApi";
+import { displayTimeSince } from "../../utils/formatTime";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function CommentCard({
+  user,
+  removeComment,
+  deleteIsProcessing,
+  setDeleteIsProcessing,
   comment: { comment_id, author, body, votes, created_at, author_avatar },
 }) {
   const [commentVotes, setCommentVotes] = useState(votes);
   const [hasLiked, setHasLiked] = useState(0);
   const [likeIsProcessing, setLikeIsProcessing] = useState(0);
-  const [voteError, setVoteError] = useState(false);
+  const [thisDeleteIsProcessing, setThisDeleteIsProcessing] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("something went wrong");
+  const [isError, setError] = useState(false);
+  const writtenByUser = user.username === author;
 
   const handleClose = () => {
-    setVoteError(false);
+    setError(false);
   };
 
   function handleLike(event) {
@@ -49,65 +58,111 @@ function CommentCard({
         })
         .catch((error) => {
           setLikeIsProcessing(0);
-          setVoteError(true);
+          setErrorMessage("something went wrong");
+          setError(true);
         });
     }
   }
 
+  function handleDeleteComment() {
+    if (!deleteIsProcessing) {
+      setThisDeleteIsProcessing(true);
+      setDeleteIsProcessing(true);
+      deleteComment(comment_id).then((error) => {
+        if (error) {
+          if (error === "Id not found") {
+            setErrorMessage("Comment not found");
+          }
+          setError(true);
+          setDeleteIsProcessing(false);
+        } else {
+          removeComment(comment_id);
+        }
+      });
+    }
+  }
+
+  useEffect(()=>{
+    if(deleteIsProcessing === false){
+      setThisDeleteIsProcessing(false)
+    }
+  },[deleteIsProcessing])
+
   return (
-    <Card className="comment-card" sx={{}}>
-      <CardHeader
-        avatar={
-          <Avatar
-            sx={{}}
-            className="avatar"
-            src={author_avatar}
-            aria-label="user avatar"
-          >
-            R
-          </Avatar>
-        }
-        title={author}
-        subheader={
-          <div className="comment-details">
-            <p>"September 14, 2016"</p>
-            <div>
-              <p>{commentVotes} likes</p>
-              <button value={1} onClick={handleLike}>
-                {likeIsProcessing === 1 ? (
-                  <CircularProgress size={20} />
-                ) : hasLiked === 1 ? (
-                  <ThumbUpAltIcon sx={{ fontSize: 20 }} color="primary" />
+    <>
+      <Card className="comment-card" sx={{}}>
+        <CardHeader
+          avatar={
+            <Avatar
+              sx={{}}
+              className="avatar"
+              src={author_avatar}
+              aria-label="user avatar"
+            >
+              R
+            </Avatar>
+          }
+          title={author}
+          subheader={
+            <div className="comment-details">
+              <p>{displayTimeSince(created_at)}</p>
+              <div>
+                <p>{commentVotes} likes</p>
+                {writtenByUser ? (
+                  <button
+                    onClick={handleDeleteComment}
+                    id="delete-comment-button"
+                  >
+                    {thisDeleteIsProcessing ? (
+                      <CircularProgress size={20} />
+                    ) : (
+                      <DeleteIcon sx={{ fontSize: 20 }} />
+                    )}
+                  </button>
                 ) : (
-                  <ThumbUpOffAltIcon sx={{ fontSize: 20 }} />
+                  <>
+                    {" "}
+                    <button value={1} onClick={handleLike}>
+                      {likeIsProcessing === 1 ? (
+                        <CircularProgress size={20} />
+                      ) : hasLiked === 1 ? (
+                        <ThumbUpAltIcon sx={{ fontSize: 20 }} color="primary" />
+                      ) : (
+                        <ThumbUpOffAltIcon sx={{ fontSize: 20 }} />
+                      )}
+                    </button>
+                    <button value={-1} onClick={handleLike}>
+                      {likeIsProcessing === -1 ? (
+                        <CircularProgress size={20} />
+                      ) : hasLiked === -1 ? (
+                        <ThumbDownAltIcon
+                          sx={{ fontSize: 20 }}
+                          color="primary"
+                        />
+                      ) : (
+                        <ThumbDownOffAltIcon sx={{ fontSize: 20 }} />
+                      )}
+                    </button>
+                  </>
                 )}
-              </button>
-              <button value={-1} onClick={handleLike}>
-                {likeIsProcessing === -1 ? (
-                  <CircularProgress size={20} />
-                ) : hasLiked === -1 ? (
-                  <ThumbDownAltIcon sx={{ fontSize: 20 }} color="primary" />
-                ) : (
-                  <ThumbDownOffAltIcon sx={{ fontSize: 20 }} />
-                )}
-              </button>
-              <Snackbar
-                id="vote-error"
-                open={voteError}
-                autoHideDuration={6000}
-                onClose={handleClose}
-                message="Something went wrong"
-              />
+              </div>
             </div>
-          </div>
-        }
+          }
+        />
+        <CardContent>
+          <Typography variant="body2" color="text.secondary">
+            {body}
+          </Typography>
+        </CardContent>
+      </Card>{" "}
+      <Snackbar
+        id="vote-error"
+        open={isError}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={errorMessage}
       />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {body}
-        </Typography>
-      </CardContent>
-    </Card>
+    </>
   );
 }
 

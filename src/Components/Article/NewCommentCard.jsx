@@ -7,7 +7,7 @@ import { Snackbar } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import SendIcon from '@mui/icons-material/Send';
 import { postComment } from "../../AxiosApi/axiosApi";
-import TextareaAutosize from 'react-textarea-autosize';
+import TextareaAutosize from "react-textarea-autosize"
 
 function NewCommentCard({ setComments, setTotalComments, articleId, user: { username, avatar_url: userAvatar } }) {
   const [commentInput, setCommentInput] = useState("")
