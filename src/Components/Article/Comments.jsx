@@ -6,6 +6,7 @@ import NewCommentCard from "./NewCommentCard.jsx";
 function Comments({ articleId, user, totalComments, setTotalComments}) {
   const [comments, setComments] = useState([]);
   const [pagesLoaded, setPagesLoaded] = useState(0);
+  const [deleteIsProcessing, setDeleteIsProcessing] = useState(false);
 
   useEffect(() => {
     getComments(articleId).then(({ comments, commentCount }) => {
@@ -38,7 +39,6 @@ function Comments({ articleId, user, totalComments, setTotalComments}) {
         return comment.comment_id !== commentId
       })
     })
-    console.log(comments.length)
     if((comments.length-1) % 10 !== 0){
       getComments(articleId, comments.length, 1).then(({ comments, commentCount }) => {
         setComments((currentComments)=>{
@@ -47,6 +47,7 @@ function Comments({ articleId, user, totalComments, setTotalComments}) {
         setTotalComments(commentCount);
       });
     }
+    setDeleteIsProcessing(false)
   }
 
   return (
@@ -55,7 +56,7 @@ function Comments({ articleId, user, totalComments, setTotalComments}) {
       <div className="comments">
       <NewCommentCard articleId={articleId} user={user} setComments={setComments} setTotalComments={setTotalComments}/>
         {comments.map((comment) => {
-          return <CommentCard key={comment.comment_id} removeComment={removeComment} user={user} comment={comment} />;
+          return <CommentCard deleteIsProcessing={deleteIsProcessing} setDeleteIsProcessing={setDeleteIsProcessing}  key={comment.comment_id} removeComment={removeComment} user={user} comment={comment} />;
         })}
       </div>
       <div id="comment-loader">

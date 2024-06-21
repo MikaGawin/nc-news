@@ -18,11 +18,14 @@ import DeleteIcon from "@mui/icons-material/Delete";
 function CommentCard({
   user,
   removeComment,
+  deleteIsProcessing,
+  setDeleteIsProcessing,
   comment: { comment_id, author, body, votes, created_at, author_avatar },
 }) {
   const [commentVotes, setCommentVotes] = useState(votes);
   const [hasLiked, setHasLiked] = useState(0);
   const [likeIsProcessing, setLikeIsProcessing] = useState(0);
+  const [thisDeleteIsProcessing, setThisDeleteIsProcessing] = useState(false);
   const [errorMessage, setErrorMessage] = useState("something went wrong");
   const [isError, setError] = useState(false);
   const writtenByUser = user.username === author;
@@ -62,17 +65,24 @@ function CommentCard({
   }
 
   function handleDeleteComment() {
-    deleteComment(comment_id).then((error) => {
-      if (error) {
-        if (error === "Id not found") {
-          setErrorMessage("Comment not found");
+    if (!deleteIsProcessing) {
+      setThisDeleteIsProcessing(true);
+      setDeleteIsProcessing(true);
+      deleteComment(comment_id).then((error) => {
+        if (error) {
+          if (error === "Id not found") {
+            setErrorMessage("Comment not found");
+          }
+          setError(true);
+          setDeleteIsProcessing(false);
+        } else {
+          removeComment(comment_id);
         }
-        setError(true);
-      } else {
-        removeComment(comment_id);
-      }
-    });
+        setThisDeleteIsProcessing(false);
+      });
+    }
   }
+  console.log(thisDeleteIsProcessing);
 
   return (
     <>
@@ -99,7 +109,11 @@ function CommentCard({
                     onClick={handleDeleteComment}
                     id="delete-comment-button"
                   >
-                    <DeleteIcon sx={{ fontSize: 20 }} />
+                    {thisDeleteIsProcessing ? (
+                      <CircularProgress size={20} />
+                    ) : (
+                      <DeleteIcon sx={{ fontSize: 20 }} />
+                    )}
                   </button>
                 ) : (
                   <>
