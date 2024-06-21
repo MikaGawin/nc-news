@@ -4,8 +4,19 @@ const request = axios.create({
   baseURL: "https://news-server-2i86.onrender.com/API",
 });
 
-export function getArticles({ order, sort_by }, page) {
-  const queries = { params: { order, sort_by, p: page } };
+export function getTopics() {
+  return request
+    .get("/topics/")
+    .then(({ data }) => {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+export function getArticles({ order, sort_by }, page, topic) {
+  const queries = { params: { order, sort_by, p: page, topic } };
   return request
     .get("/articles?limit=12", queries)
     .then(({ data }) => {
@@ -28,7 +39,7 @@ export function getArticle(articleId) {
 }
 
 export function getComments(articleId, page, limit) {
-  const queries = { params: { p: page, limit} };
+  const queries = { params: { p: page, limit } };
   return request
     .get(`/articles/${articleId}/comments`, queries)
     .then(({ data }) => {
@@ -60,12 +71,14 @@ export function postComment(articleId, comment) {
     .post(`/articles/${articleId}/comments`, comment)
     .then(({ data }) => {
       return data;
-    })
+    });
 }
 
 export function deleteComment(commentId) {
   return request
-    .delete(`/comments/${commentId}`).then((response)=>{}).catch((error)=>{
-      return error.response.data.msg
-    })
+    .delete(`/comments/${commentId}`)
+    .then((response) => {})
+    .catch((error) => {
+      return error.response.data.msg;
+    });
 }
