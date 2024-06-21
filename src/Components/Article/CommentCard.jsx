@@ -70,11 +70,10 @@ function CommentCard({
       setDeleteIsProcessing(true);
       deleteComment(comment_id).then((error) => {
         if (error) {
-          if (error === "Id not found") {
-            setErrorMessage("Comment not found");
-          }
+          setErrorMessage("something went wrong");
           setError(true);
           setDeleteIsProcessing(false);
+          setThisDeleteIsProcessing(false);
         } else {
           removeComment(comment_id);
         }
