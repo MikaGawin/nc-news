@@ -8,7 +8,7 @@ import PageSetter from "./PageSetter";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function Articles() {
-  const {topic} = useParams()
+  const { topic } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const query = new URLSearchParams(location.search);
@@ -40,7 +40,7 @@ function Articles() {
     getArticles(sortedBy, page, topic).then((data) => {
       setarticlesData(data);
     });
-  }, [sortedBy, page]);
+  }, [sortedBy, page, topic]);
 
   function handleSelect(event) {
     const index = event.target.value;
@@ -50,10 +50,9 @@ function Articles() {
     }
   }
 
-
   return (
     <div className="articles">
-      <h1>{!topic? <>All articles</> : <>{topic} articles</>}</h1>
+      <h1>{!topic ? <>All articles</> : <>{topic} articles</>}</h1>
       <div id="sort-and-result-count">
         <p id="result-count">
           showing results {firstResultIndex} - {lastResultIndex} of{" "}
@@ -72,7 +71,7 @@ function Articles() {
       </div>
       <ul className="articleList">
         {articlesData.articles.map((article) => {
-          return <ArticleCard  key={article.article_id} article={article} />;
+          return <ArticleCard key={article.article_id} article={article} />;
         })}
       </ul>
       <div id="page-selector">
