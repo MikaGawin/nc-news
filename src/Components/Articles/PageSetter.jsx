@@ -1,16 +1,15 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+
 import Pagination from "@mui/material/Pagination";
-import PaginationItem from "@mui/material/PaginationItem";
 
-function PageSetter({ searchParams, setSearchParams, page, totalPages}) {
-  const currentPage = page === null? 1 : page
- const currentTotal = isNaN(totalPages)? 1 : totalPages
+function PageSetter({ searchParams, setSearchParams, page, totalPages }) {
+  const currentPage = page === null ? 1 : page;
+  const currentTotal = isNaN(totalPages) ? 1 : totalPages;
 
-  function handlePageChange(event, value){
-    const newParams = new URLSearchParams(searchParams)
-    newParams.set("page", value)
-    setSearchParams(newParams)
+  function handlePageChange(event, value) {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("page", value);
+    setSearchParams(newParams);
   }
 
   return (

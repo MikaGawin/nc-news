@@ -5,18 +5,20 @@ import "./Articles.modules.css";
 import sortOptions from "../../utils/sortOptions";
 import ArticleCard from "./ArticleCard";
 import PageSetter from "./PageSetter";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 
 function Articles() {
   const { topic } = useParams();
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [articlesData, setarticlesData] = useState({
     articles: [],
     articlesCount: "getting articles",
   });
+
+  console.log(articlesData);
   const [sortedBy, setSortedBy] = useState({
     sortByText: "date",
     orderText: "new - old",
@@ -26,7 +28,9 @@ function Articles() {
 
   const totalPages = Math.ceil(articlesData.articlesCount / 12);
   const page = Number(searchParams.get("page"))
-  const sortState = searchParams.get("sort_by")
+    ? Number(searchParams.get("page"))
+    : 1;
+  const sortState = searchParams.get("sort_by");
 
   if (page > totalPages) {
     navigate(`?page=${totalPages}`);
@@ -38,25 +42,24 @@ function Articles() {
       ? page * 12
       : articlesData.articlesCount;
 
-      
-      useEffect(()=>{
-        if(sortState){
-          setSortedBy(sortOptions[sortState])
-        }
-      },[sortState])
-      
-      useEffect(() => {
-        getArticles(sortedBy, page, topic).then((data) => {
-          setarticlesData(data);
-        });
-      }, [sortedBy, page, topic]);
+  useEffect(() => {
+    if (sortState) {
+      setSortedBy(sortOptions[sortState]);
+    }
+  }, [sortState]);
+
+  useEffect(() => {
+    getArticles(sortedBy, page, topic).then((data) => {
+      setarticlesData(data);
+    });
+  }, [sortedBy, page, topic]);
 
   function handleSelect(event) {
     const index = event.target.value;
-    const newParams = new URLSearchParams(searchParams)
-    newParams.set("sort_by", index)
-    newParams.set("page", 1)
-    setSearchParams(newParams)
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("sort_by", index);
+    newParams.set("page", 1);
+    setSearchParams(newParams);
   }
 
   return (
@@ -84,7 +87,12 @@ function Articles() {
         })}
       </ul>
       <div id="page-selector">
-        <PageSetter page={page} searchParams={searchParams} setSearchParams={setSearchParams} totalPages={totalPages} />
+        <PageSetter
+          page={page}
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
+          totalPages={totalPages}
+        />
       </div>
     </div>
   );

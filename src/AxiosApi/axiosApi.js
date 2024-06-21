@@ -17,6 +17,7 @@ export function getTopics() {
 
 export function getArticles({ order, sort_by }, page, topic) {
   const queries = { params: { order, sort_by, p: page, topic } };
+  console.log(queries)
   return request
     .get("/articles?limit=12", queries)
     .then(({ data }) => {
