@@ -62,8 +62,6 @@ function displayTimeSince(timeString, endTime = Date.now()) {
     const pluralCheckedString = flooredNumber === 1 ? string : string + "s";
     return `${flooredNumber} ${pluralCheckedString} ago`;
   }
-  console.log(timeDifferennce);
-  console.log(secondsToTimeString(timeDifferennce));
 
   if (year >= 1) {
     return returnString("year", year);

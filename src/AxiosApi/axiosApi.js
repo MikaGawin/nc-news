@@ -27,8 +27,8 @@ export function getArticle(articleId) {
     });
 }
 
-export function getComments(articleId, page) {
-  const queries = { params: { p: page } };
+export function getComments(articleId, page, limit) {
+  const queries = { params: { p: page, limit} };
   return request
     .get(`/articles/${articleId}/comments`, queries)
     .then(({ data }) => {
@@ -60,5 +60,12 @@ export function postComment(articleId, comment) {
     .post(`/articles/${articleId}/comments`, comment)
     .then(({ data }) => {
       return data;
+    })
+}
+
+export function deleteComment(commentId) {
+  return request
+    .delete(`/comments/${commentId}`).then((response)=>{}).catch((error)=>{
+      return error.response.data.msg
     })
 }

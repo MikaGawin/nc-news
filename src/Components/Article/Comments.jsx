@@ -32,13 +32,30 @@ function Comments({ articleId, user, totalComments, setTotalComments}) {
     }
   }
 
+  function removeComment(commentId){
+    setComments((currentComments)=>{    
+      return [...currentComments].filter((comment)=>{
+        return comment.comment_id !== commentId
+      })
+    })
+    console.log(comments.length)
+    if((comments.length-1) % 10 !== 0){
+      getComments(articleId, comments.length, 1).then(({ comments, commentCount }) => {
+        setComments((currentComments)=>{
+          return [...currentComments, ... comments]
+        });
+        setTotalComments(commentCount);
+      });
+    }
+  }
+
   return (
     <>
       <h2>Comments</h2>
       <div className="comments">
       <NewCommentCard articleId={articleId} user={user} setComments={setComments} setTotalComments={setTotalComments}/>
         {comments.map((comment) => {
-          return <CommentCard key={comment.comment_id} comment={comment} />;
+          return <CommentCard key={comment.comment_id} removeComment={removeComment} user={user} comment={comment} />;
         })}
       </div>
       <div id="comment-loader">
