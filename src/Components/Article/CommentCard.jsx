@@ -4,7 +4,7 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
@@ -78,11 +78,15 @@ function CommentCard({
         } else {
           removeComment(comment_id);
         }
-        setThisDeleteIsProcessing(false);
       });
     }
   }
-  console.log(thisDeleteIsProcessing);
+
+  useEffect(()=>{
+    if(deleteIsProcessing === false){
+      setThisDeleteIsProcessing(false)
+    }
+  },[deleteIsProcessing])
 
   return (
     <>
