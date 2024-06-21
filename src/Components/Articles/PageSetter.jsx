@@ -4,15 +4,18 @@ import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 
 function PageSetter({ page, totalPages}) {
+  const currentPage = page === null? 1 : page
+ const currentTotal = isNaN(totalPages)? 1 : totalPages
 
+  console.log(totalPages)
   return (
     <Pagination
       shape="rounded"
       color="primary"
       size="large"
       siblingCount={2}
-      page={page}
-      count={totalPages}
+      page={currentPage}
+      count={currentTotal}
       renderItem={(item) => (
         <PaginationItem
           component={Link}

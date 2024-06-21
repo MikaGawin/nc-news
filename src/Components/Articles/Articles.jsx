@@ -6,10 +6,14 @@ import sortOptions from "../../utils/sortOptions";
 import ArticleCard from "./ArticleCard";
 import PageSetter from "./PageSetter";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 function Articles() {
   const { topic } = useParams();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams()
+  console.log(searchParams)
+
   const location = useLocation();
   const query = new URLSearchParams(location.search);
 
@@ -25,7 +29,8 @@ function Articles() {
   });
 
   const totalPages = Math.ceil(articlesData.articlesCount / 12);
-  const page = parseInt(query.get("page") || "1", { totalPages });
+  const page = searchParams.get("page")
+  //parseInt(query.get("page") || "1", { totalPages });
   if (page > totalPages) {
     navigate(`?page=${totalPages}`);
   }
