@@ -18,7 +18,6 @@ function Articles() {
     articlesCount: "getting articles",
   });
 
-  console.log(articlesData);
   const [sortedBy, setSortedBy] = useState({
     sortByText: "date",
     orderText: "new - old",
